@@ -5,9 +5,9 @@ import * as authJWT from '../middlewares/authJWT'
 const router = Router()
 
 router.get('/', [authJWT.verifyToken], (req, res) => { res.json({ message: 'api/clients/' }) })
-router.get('/one:id', [authJWT.verifyToken], getCliente)
+router.get('/one/:id', [authJWT.verifyToken], getCliente)
 router.get('/all', [authJWT.verifyToken], getAllCliente)
-router.post('/create', [authJWT.verifyToken], createCliente)
-router.put('/update', [authJWT.verifyToken], updateCliente)
+router.post('/', [authJWT.verifyToken], createCliente)
+router.put('/', [authJWT.verifyToken], updateCliente)
 
 export default router

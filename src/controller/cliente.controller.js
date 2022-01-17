@@ -1,28 +1,42 @@
-export const getAllCliente = async (req, res) => {
-    const query = `SELECT * FROM cliente`
-
-    res.status(200).json({ message: 'User created' })
-}
+import { getMultiple, getOne, insertOne, updateOne } from "../services/cliente"
 
 export const getCliente = async (req, res) => {
     const { id } = req.params
-    const query = `SELECT * FROM cliente WHERE id = `
 
-    res.status(200).json({ message: 'User created' })
+    try {
+        const result = await getOne(id)
+        res.status(200).json(result)
+    } catch (error) {
+        res.status(500).json({ message: error.sqlMessage })
+    }
+}
+
+export const getAllCliente = async (req, res) => {
+    const { page } = req.query
+
+    try {
+        const result = await getMultiple(page)
+        res.status(200).json(result)
+    } catch (error) {
+        res.status(500).json({ message: error.sqlMessage })
+    }
 }
 
 export const createCliente = async (req, res) => {
-    const { nombre, apellido, razon, ruc, direccion, telefono, correo } = req.body
-
-    const query = `INSERT INTO cliente (nombre, apellido, razon, ruc, direccion, telefono, correo) VALUES()`
-
-    res.status(200).json({ message: 'User created' })
+    try {
+        const result = await insertOne(req.body)
+        res.status(200).json(result)
+    } catch (error) {
+        res.status(500).json({ message: error.sqlMessage })
+    }
 }
 
 export const updateCliente = async (req, res) => {
-    const { id, nombre, apellido, razon, ruc, direccion, telefono, correo } = req.body
-
-    const query = `UPDATE cliente SET`
-
-    res.status(200).json({ message: 'User updated' })
+    try {
+        const result = await updateOne(req.body)
+        res.status(200).json(result)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: error.sqlMessage })
+    }
 }
