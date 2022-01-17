@@ -12,3 +12,7 @@ export const login = async (req, res) => {
 
     res.json({ token })
 }
+
+export const validate = async (req, res) => {
+    res.json({ token: null, message: 'authorized' })
+}

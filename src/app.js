@@ -16,7 +16,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(morgan('dev'))
 app.use(cors({
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-access-token'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     origin: '*'
 }))
@@ -36,6 +36,6 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes)
 app.use('/api/clients', clienteRoutes)
 app.use('/api/products', productoRoutes)
-// app.use('/api/cuote', cuoteRoutes)
+// app.use('/api/cuotes', cuoteRoutes)
 
 export default app
