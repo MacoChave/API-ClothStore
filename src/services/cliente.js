@@ -1,6 +1,4 @@
 import { query } from '../services/db'
-import { getOffset, emptyOrRows } from '../helper'
-import { DB_OFFSET } from '../config';
 
 export const getOne = async (id) => {
     const rows = await query(
@@ -11,15 +9,12 @@ export const getOne = async (id) => {
     return rows;
 };
 
-export const getMultiple = async (page = 1) => {
-    const offset = getOffset(page, DB_OFFSET);
+export const getMultiple = async () => {
     const rows = await query(
-        `SELECT * FROM cliente LIMIT ${offset}, ${DB_OFFSET}`
+        `SELECT * FROM cliente`
     );
-    const data = emptyOrRows(rows);
-    const meta = { page };
 
-    return { data, meta };
+    return rows;
 };
 
 export const insertOne = async (cliente) => {
@@ -36,7 +31,7 @@ export const insertOne = async (cliente) => {
         ]
     );
 
-    let message = 'Error in creating programming language'
+    let message = 'Error in creating client'
 
     if (result.affectedRows) message = 'Client created successfully'
 

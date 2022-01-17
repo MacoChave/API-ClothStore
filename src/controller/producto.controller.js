@@ -1,29 +1,42 @@
+import { getMultiple, getOne, insertOne, updateOne } from "../services/producto"
+
 export const getProducto = async (req, res) => {
-    const { id } = req.query
+    const { id } = req.params
 
-    const query = `SELECT * FROM producto WHERE id = `
-
-    res.status(200).json({ message: 'Product created' })
+    try {
+        const result = await getOne(id)
+        res.status(200).json(result)
+    } catch (error) {
+        res.status(500).json({ message: error.sqlMessage })
+    }
 }
 
 export const getAllProducto = async (req, res) => {
-    const query = `SELECT * FROM producto`
+    const { page } = req.query
 
-    res.status(200).json({ message: 'Product created' })
+    try {
+        const result = await getMultiple(page)
+        res.status(200).json(result)
+    } catch (error) {
+        res.status(500).json({ message: error.sqlMessage })
+    }
 }
 
 export const createProducto = async (req, res) => {
-    const { imagen, deporte, modelo, sexo, tela, talla, costo_t, costo_a, descripcion } = req.body
-
-    const query = `INSERT INTO producto(imagen, deporte, modelo, sexo, tela, talla, costo_t, costo_a, descripcion) VALUES()`
-
-    res.status(200).json({ message: 'Product created' })
+    try {
+        const result = await insertOne(req.body)
+        res.status(200).json(result)
+    } catch (error) {
+        res.status(500).json({ message: error.sqlMessage })
+    }
 }
 
 export const updateProducto = async (req, res) => {
-    const { id, imagen, deporte, modelo, sexo, tela, talla, costo_t, costo_a, descripcion } = req.body
-
-    const query = `UPDATE producto SET`
-
-    res.status(200).json({ message: 'Product created' })
+    try {
+        const result = await updateOne(req.body)
+        res.status(200).json(result)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: error.sqlMessage })
+    }
 }
