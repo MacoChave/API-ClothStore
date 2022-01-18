@@ -25,7 +25,7 @@
       <button
         type="submit"
         class="btn btn-primary"
-        [disabled]="sesionForm.status !== 'VALID'"
+        [disabled]="!sesionForm.valid"
       >
         Iniciar sesion
       </button>

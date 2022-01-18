@@ -1,1 +1,122 @@
-<p>clientes works!</p>
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Filtrar clientes</h5>
+    <form [formGroup]="filterForm" (ngSubmit)="filterSubmit()">
+      <div class="container">
+        <div class="row justify-content-end">
+          <div class="col-3 mb-4">
+            <button class="btn btn-primary" type="submit">Filtrar</button>
+          </div>
+          <div class="col-3 mb-4">
+            <button
+              class="btn btn-secondary"
+              type="button"
+              (click)="filterClear()"
+            >
+              Limpiar filtro
+            </button>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="floatingKeyword"
+                placeholder="Palabra clave"
+                formControlName="keyword"
+              />
+              <label for="floatingKeyword">Palabra clave</label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="floatingRazon"
+                placeholder="Razón"
+                formControlName="razon"
+              />
+              <label for="floatingRazon">Razón</label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="floatingCodigo"
+                placeholder="Código"
+                formControlName="codigo"
+              />
+              <label for="floatingCodigo">Código</label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="floatingRUC"
+                placeholder="RUC"
+                formControlName="ruc"
+              />
+              <label for="floatingRUC">RUC</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <div class="container">
+      <div class="row justify-content-between">
+        <div class="col-9">
+          <h5 class="card-title">
+            Total de clientes <span>{{ clientList.length }}</span>
+          </h5>
+        </div>
+        <div class="col">
+          <button class="btn btn-primary" type="button" (click)="openModal()">
+            Agregar Cliente
+          </button>
+        </div>
+      </div>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Nombre y Apellido</th>
+          <th>Razón social</th>
+          <th>RUC</th>
+          <th>Dirección</th>
+          <th>Teléfono</th>
+          <th>Email</th>
+          <th>Editar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let client of filterClient">
+          <th scope="row">{{ client.id }}</th>
+          <td>{{ client.nombre }} {{ client.apellido }}</td>
+          <td>{{ client.razon }}</td>
+          <td>{{ client.ruc }}</td>
+          <td>{{ client.direccion }}</td>
+          <td>{{ client.telefono }}</td>
+          <td>{{ client.correo }}</td>
+          <td><button class="btn btn-primary">Editar</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div *ngIf="showModal">
+  <cliente-modal></cliente-modal>
+</div>

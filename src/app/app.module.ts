@@ -11,6 +11,7 @@ import { CotizacionesComponent } from './pages/cotizaciones/cotizaciones.compone
 import { SesionComponent } from './pages/sesion/sesion.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ModalComponent } from './pages/clientes/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     CotizacionesComponent,
     SesionComponent,
     DashboardComponent,
+    ModalComponent,
   ],
   imports: [
     BrowserModule,
