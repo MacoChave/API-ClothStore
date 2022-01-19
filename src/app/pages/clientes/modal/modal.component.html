@@ -1,17 +1,18 @@
 <div class="card">
   <div class="card-body">
     <h5 class="card-title">Cliente</h5>
-    <form>
+    <form [formGroup]="clientForm" (ngSubmit)="clientSubmit()">
       <div class="row">
         <div class="col">
           <div class="form-floating mb-3">
             <input
               type="text"
               class="form-control"
-              id="floating"
+              id="floatingNombre"
               placeholder="Nombre"
+              formControlName="nombre"
             />
-            <label for="">Nombre</label>
+            <label for="Nombre">Nombre</label>
           </div>
         </div>
         <div class="col">
@@ -19,10 +20,11 @@
             <input
               type="text"
               class="form-control"
-              id="floating"
+              id="floatingApellido"
               placeholder="Apellido"
+              formControlName="apellido"
             />
-            <label for="">Apellido</label>
+            <label for="Apellido">Apellido</label>
           </div>
         </div>
       </div>
@@ -30,53 +32,64 @@
         <input
           type="text"
           class="form-control"
-          id="floating"
+          id="floatingRazon"
           placeholder="Razón"
+          formControlName="razon"
         />
-        <label for="">Razón</label>
+        <label for="Razon">Razón</label>
       </div>
       <div class="form-floating mb-3">
         <input
           type="number"
           class="form-control"
-          id="floating"
+          id="floatingRUC"
           placeholder="RUC"
+          formControlName="ruc"
         />
-        <label for="">RUC</label>
+        <label for="RUC">RUC</label>
       </div>
       <div class="form-floating mb-3">
         <input
           type="text"
           class="form-control"
-          id="floating"
+          id="floatingDireccion"
           placeholder="Dirección"
+          formControlName="direccion"
         />
-        <label for="">Dirección</label>
+        <label for="Direccion">Dirección</label>
       </div>
       <div class="form-floating mb-3">
         <input
           type="tel"
           class="form-control"
-          id="floating"
+          id="floatingTelefono"
           placeholder="Teléfono"
+          formControlName="telefono"
         />
-        <label for="">Teléfono</label>
+        <label for="Telefono">Teléfono</label>
       </div>
       <div class="form-floating mb-3">
         <input
           type="email"
           class="form-control"
-          id="floating"
+          id="floatingCorreo"
           placeholder="Correo"
+          formControlName="correo"
         />
-        <label for="">Correo</label>
+        <label for="Correo">Correo</label>
       </div>
       <div class="row">
         <div class="col">
-          <button class="btn btn-outline-primary">Cancelar</button>
+          <button
+            class="btn btn-outline-primary"
+            type="button"
+            (click)="closeModal()"
+          >
+            Cancelar
+          </button>
         </div>
         <div class="col align-items-end">
-          <button class="btn btn-warning">Aceptar</button>
+          <button class="btn btn-warning" type="submit">Guardar</button>
         </div>
       </div>
     </form>

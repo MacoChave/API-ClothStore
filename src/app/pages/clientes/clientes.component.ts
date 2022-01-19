@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ICliente } from 'src/app/models/cliente';
+import { clearCliente, ICliente } from 'src/app/models/cliente';
 import { ClientesService } from 'src/app/services/clientes.service';
 
 @Component({
@@ -10,6 +10,7 @@ import { ClientesService } from 'src/app/services/clientes.service';
 })
 export class ClientesComponent implements OnInit {
   showModal: boolean = false;
+  clientEdit: ICliente = clearCliente();
   clientList: ICliente[] = [];
   filterClient: ICliente[] = [];
   filterForm: FormGroup = new FormGroup({
@@ -22,9 +23,13 @@ export class ClientesComponent implements OnInit {
   constructor(private clienteService: ClientesService) {}
 
   ngOnInit(): void {
+    this.getData();
+  }
+
+  getData() {
     this.clienteService.getAll().subscribe({
       next: (v) => (this.clientList = this.filterClient = v),
-      error: (err) => console.error(err),
+      error: (err) => alert(err),
       complete: () => console.info('Complete'),
     });
   }
@@ -71,8 +76,18 @@ export class ClientesComponent implements OnInit {
     });
   }
 
+  editClient(cliente: ICliente): void {
+    this.clientEdit = cliente;
+    this.openModal();
+  }
+
   openModal(): void {
-    this.showModal = true;
-    console.log('Agregando nuevo cliente');
+    this.showModal = !this.showModal;
+  }
+
+  closeModal(state: boolean): void {
+    this.showModal = !this.showModal;
+    this.getData();
+    this.clientEdit = clearCliente();
   }
 }

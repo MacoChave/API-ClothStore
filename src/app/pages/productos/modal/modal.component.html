@@ -1,0 +1,132 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Producto</h5>
+    <form [formGroup]="productoForm" (ngSubmit)="productoSubmit()">
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          class="form-control"
+          id="floating"
+          Imagen
+          placeholder="Imagen"
+          formControlName="imagen"
+        />
+        <label for="floatingImagen">Imagen</label>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingDeporte"
+              placeholder="Deporte"
+              formControlName="deporte"
+            />
+            <label for="floatingDeporte">Deporte</label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingModelo"
+              placeholder="Modelo"
+              formControlName="modelo"
+            />
+            <label for="floatingModelo">Modelo</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingSexo"
+              placeholder="Sexo"
+              formControlName="sexo"
+            />
+            <label for="floatingSexo">Sexo</label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingTela"
+              placeholder="Tela"
+              formControlName="tela"
+            />
+            <label for="floatingTela">Tela</label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingTalla"
+              placeholder="Talla"
+              formControlName="talla"
+            />
+            <label for="floatingTalla">Talla</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingCosto t"
+              placeholder="costo_t"
+              formControlName="costo_t"
+            />
+            <label for="floatingCosto_t">Costo t</label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingCosto a"
+              placeholder="costo_a"
+              formControlName="costo_a"
+            />
+            <label for="floatingCosto_a">Costo a</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          class="form-control"
+          id="floatingDescripcion"
+          placeholder="Descripcion"
+          formControlName="descripcion"
+        />
+        <label for="floatingDescripcion">Descripcion</label>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button
+            class="btn btn-outline-primary"
+            type="button"
+            (click)="closeModal()"
+          >
+            Cancelar
+          </button>
+        </div>
+        <div class="col align-items-end">
+          <button class="btn btn-warning" type="submit">Guardad</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
