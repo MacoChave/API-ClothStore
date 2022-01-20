@@ -56,14 +56,14 @@
         <tbody>
           <tr *ngFor="let producto of filterProducto">
             <th>{{ producto.id }}</th>
-            <td><img src="{{ producto.imagen }}" /></td>
+            <td><img src="{{ producto.imagen }}" style="width: 150px" /></td>
             <td>{{ producto.deporte }}</td>
             <td>{{ producto.modelo }}</td>
             <td>{{ producto.sexo }}</td>
             <td>{{ producto.tela }}</td>
             <td>{{ producto.talla }}</td>
-            <td>{{ producto.costo_t }}</td>
-            <td>{{ producto.costo_a }}</td>
+            <td>{{ producto.costo_t | currency: "USD" }}</td>
+            <td>{{ producto.costo_a | currency: "USD" }}</td>
             <td>{{ producto.descripcion }}</td>
             <td>
               <button class="btn btn-primary" (click)="editProducto(producto)">

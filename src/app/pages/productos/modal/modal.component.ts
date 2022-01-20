@@ -34,6 +34,22 @@ export class ModalComponent implements OnInit {
     }
   }
 
+  imageChanged(element: any): void {
+    let file = element.target.files[0];
+    if (!file) return;
+
+    console.log(file);
+
+    var reader = new FileReader();
+    reader.onloadend = () => {
+      let base64: string = `${reader.result}`;
+      this.productoForm.get('imagen')?.setValue(base64);
+      console.log(this.productoForm.value);
+    };
+
+    reader.readAsDataURL(file);
+  }
+
   closeModal(): void {
     this.closeEvent.emit(true);
   }

@@ -2,16 +2,39 @@
   <div class="card-body">
     <h5 class="card-title">Producto</h5>
     <form [formGroup]="productoForm" (ngSubmit)="productoSubmit()">
-      <div class="form-floating mb-3">
-        <input
-          type="text"
-          class="form-control"
-          id="floating"
-          Imagen
-          placeholder="Imagen"
-          formControlName="imagen"
-        />
-        <label for="floatingImagen">Imagen</label>
+      <div class="row align-items-center">
+        <div class="col mb-4">
+          <div
+            *ngIf="
+              productoForm.value.imagen !== '';
+              then thenBlock;
+              else elseBlock
+            "
+          ></div>
+          <ng-template #thenBlock>
+            <img
+              src="{{ productoForm.value.imagen }}"
+              alt="Image product"
+              style="width: 100%"
+            />
+          </ng-template>
+          <ng-template #elseBlock>
+            <img
+              src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
+              alt="Image product empty"
+              style="width: 100%"
+            />
+          </ng-template>
+        </div>
+        <div class="col mb-4">
+          <input
+            type="file"
+            id="image"
+            (change)="imageChanged($event)"
+            hidden
+          />
+          <label class="btn btn-primary" for="image">Seleccionar imagen</label>
+        </div>
       </div>
       <div class="row">
         <div class="col">
