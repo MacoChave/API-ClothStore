@@ -4,6 +4,8 @@ import cors from 'cors'
 import authRoutes from './routes/auth.routes'
 import clienteRoutes from './routes/cliente.routes'
 import productoRoutes from './routes/producto.routes'
+import cotizacionRoutes from './routes/cotizacion.routes'
+import detalleRoutes from './routes/detalle-cotizacion.routes'
 import pkgjson from '../package.json'
 
 const app = express()
@@ -36,6 +38,7 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes)
 app.use('/api/clients', clienteRoutes)
 app.use('/api/products', productoRoutes)
-// app.use('/api/cuotes', cuoteRoutes)
+app.use('/api/cuotes', cotizacionRoutes)
+app.use('/api/details', detalleRoutes)
 
 export default app

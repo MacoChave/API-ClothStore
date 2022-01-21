@@ -1,8 +1,8 @@
-import { query } from '../services/db'
+import { query } from './db'
 
 export const getOne = async (id) => {
     const rows = await query(
-        'SELECT * FROM cotizacion WHERE id = ?',
+        'SELECT * FROM vista_cotizacion WHERE id = ?',
         [id]
     );
 
@@ -11,7 +11,7 @@ export const getOne = async (id) => {
 
 export const getMultiple = async () => {
     const rows = await query(
-        `SELECT * FROM cotizacion`
+        'SELECT * FROM vista_cotizacion'
     );
 
     return rows;
@@ -19,46 +19,49 @@ export const getMultiple = async () => {
 
 export const insertOne = async (cotizacion) => {
     const result = await query(
-        'INSERT INTO cotizacion (imagen, deporte, modelo, sexo, tela, talla, costo_t, costo_a, descripcion) VALUES(?,?,?,?,?,?,?,?,?)',
+        'INSERT INTO cotizacion (id_cliente, soles, dolares, pesos) VALUES(?,?,?,?)',
         [
-            cotizacion.imagen,
-            cotizacion.deporte,
-            cotizacion.modelo,
-            cotizacion.sexo,
-            cotizacion.tela,
-            cotizacion.talla,
-            cotizacion.costo_t,
-            cotizacion.costo_a,
-            cotizacion.descripcion,
+            cotizacion.id_cliente,
+            cotizacion.soles,
+            cotizacion.dolares,
+            cotizacion.pesos,
         ]
     );
 
-    let message = 'Error in creating product'
+    let message = 'Error in creating quote'
 
-    if (result.affectedRows) message = 'Product created successfully'
+    if (result.affectedRows) message = 'Quote created successfully'
 
     return { message };
 };
 
 export const updateOne = async (cotizacion) => {
     const result = await query(
-        'UPDATE cotizacion SET imagen = ?, deporte = ?, modelo = ?, sexo = ?, tela = ?, talla = ?, costo_t = ?, costo_a = ?, descripcion = ? WHERE id = ?',
+        'UPDATE cotizacion SET soles = ?, dolares = ?, pesos = ? WHERE id = ?',
         [
-            cotizacion.imagen,
-            cotizacion.deporte,
-            cotizacion.modelo,
-            cotizacion.sexo,
-            cotizacion.tela,
-            cotizacion.talla,
-            cotizacion.costo_t,
-            cotizacion.costo_a,
-            cotizacion.descripcion,
+            cotizacion.soles,
+            cotizacion.dolares,
+            cotizacion.pesos,
             cotizacion.id
         ]
     );
-    let message = 'Error in updating product'
+    let message = 'Error in updating quote'
 
-    if (result.affectedRows) message = 'Product updated succesfully'
+    if (result.affectedRows) message = 'Quote updated succesfully'
+
+    return { message };
+};
+
+export const deleteOne = async (id) => {
+    const result = await query(
+        'DELETE cotizacion WHERE id = ?',
+        [
+            cotizacion.id
+        ]
+    );
+    let message = 'Error in deleting quote'
+
+    if (result.affectedRows) message = 'Quote deleted succesfully'
 
     return { message };
 };

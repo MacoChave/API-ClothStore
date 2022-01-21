@@ -15,7 +15,7 @@ export const getAllProducto = async (req, res) => {
     const { page } = req.query
 
     try {
-        const result = await getMultiple(page)
+        const result = await getMultiple()
         res.status(200).json(result)
     } catch (error) {
         res.status(500).json({ message: error.sqlMessage })

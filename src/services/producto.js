@@ -1,4 +1,4 @@
-import { query } from '../services/db'
+import { query } from './db'
 
 export const getOne = async (id) => {
     const rows = await query(
