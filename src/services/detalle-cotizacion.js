@@ -46,9 +46,9 @@ export const updateOne = async (detalle) => {
 
 export const deleteOne = async (id) => {
     const result = await query(
-        'DELETE detalle_cotizacion WHERE id = ?',
+        'DELETE FROM detalle_cotizacion WHERE id = ?',
         [
-            detalle.id,
+            id,
         ]
     )
 

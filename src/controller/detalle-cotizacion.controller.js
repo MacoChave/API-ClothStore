@@ -11,8 +11,9 @@ export const getDetalleCotizacion = async (req, res) => {
 }
 
 export const getAllDetalleCotizacion = async (req, res) => {
+    const { id } = req.params
     try {
-        const result = await getMultiple()
+        const result = await getMultiple(id)
         res.status(200).json(result)
     } catch (error) {
         res.status(500).json({ message: error.sqlMessage })
