@@ -39,17 +39,14 @@ export class ModalComponent implements OnInit {
   clientSubmit(): void {
     if (this.cliente.id !== undefined && this.cliente.id === 0) {
       this.clienteService.create(this.clientForm.value).subscribe({
-        next: (v) => console.log(v),
         error: (err) => alert(err),
-        complete: () => console.info('Complete'),
+        complete: () => this.closeModal(),
       });
     } else {
       this.clienteService.update(this.clientForm.value).subscribe({
-        next: (v) => console.log(v),
         error: (err) => alert(err),
-        complete: () => console.info('Complete'),
+        complete: () => this.closeModal(),
       });
     }
-    this.closeModal();
   }
 }

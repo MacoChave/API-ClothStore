@@ -66,16 +66,13 @@
       </div>
       <div class="row">
         <div class="col">
-          <div class="form-floating mb-3">
-            <input
-              type="text"
-              class="form-control"
-              id="floatingSexo"
-              placeholder="Sexo"
-              formControlName="sexo"
-            />
-            <label for="floatingSexo">Sexo</label>
-          </div>
+          <label>Sexo</label>
+          <select class="form-select mb-3" formControlName="sexo">
+            <option value=""></option>
+            <option *ngFor="let sexo of sexoArr" [ngValue]="sexo">
+              {{ sexo }}
+            </option>
+          </select>
         </div>
         <div class="col">
           <div class="form-floating mb-3">
@@ -90,16 +87,13 @@
           </div>
         </div>
         <div class="col">
-          <div class="form-floating mb-3">
-            <input
-              type="text"
-              class="form-control"
-              id="floatingTalla"
-              placeholder="Talla"
-              formControlName="talla"
-            />
-            <label for="floatingTalla">Talla</label>
-          </div>
+          <label>Talla</label>
+          <select class="form-select mb-3" formControlName="talla">
+            <option value=""></option>
+            <option *ngFor="let talla of tallaArr" [ngValue]="talla">
+              {{ talla }}
+            </option>
+          </select>
         </div>
       </div>
       <div class="row">

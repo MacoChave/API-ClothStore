@@ -26,10 +26,8 @@ export class IsLoggedOutGuard implements CanActivate {
       next: (v) => {
         if (v.message === 'authorized') {
           this.router.navigateByUrl('dashboard');
-          console.log('AUTORIZADO');
           return true;
         } else {
-          console.log('NO AUTORIZADO');
           return false;
         }
       },

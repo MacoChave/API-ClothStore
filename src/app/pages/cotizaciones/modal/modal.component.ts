@@ -61,13 +61,11 @@ export class ModalComponent implements OnInit {
   cotizacionSubmit(): void {
     if (this.cotizacion.id !== undefined && this.cotizacion.id === 0) {
       this.cotizacionService.create(this.cotizacionForm.value).subscribe({
-        next: (v) => console.log(v),
         error: (err) => alert(err),
         complete: () => this.closeModal(),
       });
     } else {
       this.cotizacionService.update(this.cotizacionForm.value).subscribe({
-        next: (v) => console.log(v),
         error: (err) => alert(err),
         complete: () => this.closeModal(),
       });

@@ -13,6 +13,9 @@ export class ModalComponent implements OnInit {
   @Input() producto: IProducto = clearProducto();
   @Output() closeEvent = new EventEmitter<boolean>();
 
+  sexoArr: string[] = ['Male', 'Female', 'Mix'];
+  tallaArr: string[] = ['Small', 'Medium', 'Large', 'Extra-Large'];
+
   productoForm: FormGroup = new FormGroup({
     id: new FormControl(0),
     imagen: new FormControl('', Validators.required),
@@ -38,13 +41,10 @@ export class ModalComponent implements OnInit {
     let file = element.target.files[0];
     if (!file) return;
 
-    console.log(file);
-
     var reader = new FileReader();
     reader.onloadend = () => {
       let base64: string = `${reader.result}`;
       this.productoForm.get('imagen')?.setValue(base64);
-      console.log(this.productoForm.value);
     };
 
     reader.readAsDataURL(file);
@@ -57,17 +57,14 @@ export class ModalComponent implements OnInit {
   productoSubmit(): void {
     if (this.producto.id !== undefined && this.producto.id === 0) {
       this.productoService.create(this.productoForm.value).subscribe({
-        next: (v) => console.log(v),
         error: (err) => alert(err),
-        complete: () => console.info('Complete'),
+        complete: () => this.closeModal(),
       });
     } else {
       this.productoService.update(this.productoForm.value).subscribe({
-        next: (v) => console.log(v),
         error: (err) => alert(err),
-        complete: () => console.info('Complete'),
+        complete: () => this.closeModal(),
       });
     }
-    this.closeModal();
   }
 }

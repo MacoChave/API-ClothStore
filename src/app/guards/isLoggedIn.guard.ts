@@ -25,10 +25,8 @@ export class IsLoggedInGuard implements CanActivate {
     this.authService.validate().subscribe({
       next: (v) => {
         if (v.message === 'authorized') {
-          console.log('AUTORIZADO...');
           return true;
         } else {
-          console.log('NO AUTORIZADO...');
           this.router.navigateByUrl('sesion');
           return false;
         }
