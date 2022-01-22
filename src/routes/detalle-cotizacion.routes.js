@@ -11,6 +11,6 @@ router.get('/one/:id', [authJWT.verifyToken], getDetalleCotizacion)
 router.get('/all', [authJWT.verifyToken], getAllDetalleCotizacion)
 router.post('/', [authJWT.verifyToken], createDetalleCotizacion)
 router.put('/', [authJWT.verifyToken], updateDetalleCotizacion)
-router.delete('/', [authJWT.verifyToken], deleteDetalleCotizacion)
+router.delete('/:id', [authJWT.verifyToken], deleteDetalleCotizacion)
 
 export default router

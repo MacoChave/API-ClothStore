@@ -37,7 +37,7 @@ export const insertOne = async (cotizacion) => {
 
 export const updateOne = async (cotizacion) => {
     const result = await query(
-        'UPDATE cotizacion SET soles = ?, dolares = ?, pesos = ? WHERE id = ?',
+        'UPDATE cotizacion SET soles = ?, dolares = ?, pesos = ?, fecha_modificado = CURRENT_TIMESTAMP WHERE id = ?',
         [
             cotizacion.soles,
             cotizacion.dolares,
@@ -54,9 +54,9 @@ export const updateOne = async (cotizacion) => {
 
 export const deleteOne = async (id) => {
     const result = await query(
-        'DELETE cotizacion WHERE id = ?',
+        'DELETE FROM cotizacion WHERE id = ?',
         [
-            cotizacion.id
+            id
         ]
     );
     let message = 'Error in deleting quote'

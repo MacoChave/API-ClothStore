@@ -1,16 +1,17 @@
 import { query } from './db'
 
-export const getOne = async (id) => {
+export const getOne = async ({ id, id_cotizacion }) => {
     const rows = await query(
-        'SELECT * FROM detalle_cotizacion WHERE id = ?',
-        [id]
+        'SELECT * FROM vista_detalle_cotizacion WHERE id = ? AND id_cotizacion = ?',
+        [id, id_cotizacion]
     )
     return rows
 }
 
-export const getMultiple = async () => {
+export const getMultiple = async (id) => {
     const rows = await query(
-        'SELECT * FROM detalle_cotizacion'
+        'SELECT * FROM vista_detalle_cotizacion WHERE id_cotizacion = ?',
+        [id]
     )
     return rows
 }
