@@ -1,9 +1,17 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ICliente } from 'src/app/models/cliente';
-import { clearCotizacion, ICotizacion } from 'src/app/models/cotizacion';
+import { clearCliente, ICliente } from 'src/app/models/cliente';
+import {
+  clearCotizacion,
+  clearDetalle,
+  ICotizacion,
+  IDetalle,
+} from 'src/app/models/cotizacion';
+import { clearProducto, IProducto } from 'src/app/models/producto';
 import { ClientesService } from 'src/app/services/clientes.service';
 import { CotizacionService } from 'src/app/services/cotizacion.service';
+import { DetalleService } from 'src/app/services/detalle.service';
+import { ProductosService } from 'src/app/services/productos.service';
 
 @Component({
   selector: 'cotizacion-modal',
@@ -14,29 +22,50 @@ import { CotizacionService } from 'src/app/services/cotizacion.service';
 export class ModalComponent implements OnInit {
   @Input() cotizacion: ICotizacion = clearCotizacion();
   @Output() closeEvent = new EventEmitter<boolean>();
-  clientes: ICliente[] = [];
+  cliente: ICliente = clearCliente();
+  producto: IProducto = clearProducto();
+  clientes: ICliente[] = []; // GET DATA
+  productos: IProducto[] = []; // GET DATA
+  detalles: IDetalle[] = []; // GET DATA && INSERT ALL
+  detalle: IDetalle = clearDetalle();
 
   cotizacionForm: FormGroup = new FormGroup({
     id: new FormControl(0),
     id_cliente: new FormControl(0, Validators.required),
-    fecha_creada: new FormControl(''),
-    fecha_modificado: new FormControl(''),
     soles: new FormControl('', Validators.required),
     dolares: new FormControl('', Validators.required),
     pesos: new FormControl('', Validators.required),
-    nombre: new FormControl(''),
+  });
+
+  detalleForm: FormGroup = new FormGroup({
+    id: new FormControl(0),
+    id_cotizacion: new FormControl(0, Validators.required),
+    id_producto: new FormControl(0, Validators.required),
+    cantidad: new FormControl(0, Validators.required),
   });
 
   constructor(
     private cotizacionService: CotizacionService,
-    private clienteService: ClientesService
+    private clienteService: ClientesService,
+    private productoService: ProductosService,
+    private detalleService: DetalleService
   ) {
     this.getClientes();
+    this.getProductos();
   }
 
   ngOnInit(): void {
-    if (this.cotizacion.id !== undefined && this.cotizacion.id !== 0) {
-      this.cotizacionForm.setValue(this.cotizacion);
+    if (this.cotizacion.id !== 0) {
+      this.cotizacionForm.setValue({
+        id: this.cotizacion.id,
+        id_cliente: this.cotizacion.id_cliente,
+        soles: this.cotizacion.soles,
+        dolares: this.cotizacion.dolares,
+        pesos: this.cotizacion.pesos,
+      });
+      this.detalleService.getAll(this.cotizacion.id).subscribe({
+        next: (v) => (this.detalles = v),
+      });
     }
   }
 
@@ -44,30 +73,89 @@ export class ModalComponent implements OnInit {
     this.clienteService.getAll().subscribe({
       next: (v) => (this.clientes = v),
       error: (err) => alert(err),
-      complete: () => console.info('Complete'),
+    });
+  }
+
+  getProductos() {
+    this.productoService.getAll().subscribe({
+      next: (v) => (this.productos = v),
+      error: (err) => alert(err),
     });
   }
 
   changeClient(event: any): void {
-    this.cotizacionForm
-      .get('id_cliente')
-      ?.setValue(event.target.value, { onlySelf: true });
+    // this.cotizacionForm
+    //   .get('id_cliente')
+    //   ?.setValue(event.target.value, { onlySelf: true });
+    this.cliente = this.clientes[event.target.selectedIndex - 1];
+  }
+
+  changeProduct(event: any): void {
+    this.producto = this.productos[event.target.selectedIndex - 1];
+    console.log(this.producto);
   }
 
   closeModal(): void {
     this.closeEvent.emit(true);
   }
 
-  cotizacionSubmit(): void {
-    if (this.cotizacion.id !== undefined && this.cotizacion.id === 0) {
-      this.cotizacionService.create(this.cotizacionForm.value).subscribe({
+  detalleSubmit(): void {
+    this.detalles.push(this.detalleForm.value);
+  }
+
+  deleteDetalle(detalle: IDetalle): void {
+    if (this.cotizacion.id !== 0 && detalle.id !== 0) {
+      this.detalleService.delete(detalle.id).subscribe({
+        next: (v) => alert(v.message),
         error: (err) => alert(err),
-        complete: () => this.closeModal(),
       });
     } else {
+      this.detalles = this.detalles.filter(
+        (detalleItem) => detalleItem.id !== detalle.id
+      );
+    }
+  }
+
+  cotizacionSubmit(): void {
+    if (this.cotizacion.id !== undefined && this.cotizacion.id === 0) {
+      this.detalles = this.detalles.filter(
+        (detalleItem) => detalleItem.id === 0
+      );
+
+      this.cotizacionService.create(this.cotizacionForm.value).subscribe({
+        next: (v) => {
+          this.detalles = this.detalles.map((value) => {
+            value.id_cotizacion = v.id;
+            return value;
+          });
+        },
+        error: (err) => alert(err),
+        complete: () => {
+          this.detalles.forEach((detalle) => {
+            this.detalleService.create(detalle).subscribe({
+              complete: () => this.closeModal(),
+            });
+          });
+        },
+      });
+    } else {
+      let detallesToCreate = this.detalles.filter(
+        (value) => value.id_cotizacion === 0
+      );
+      let detallesToUpdate = this.detalles.filter(
+        (value) => value.id_cotizacion !== 0
+      );
       this.cotizacionService.update(this.cotizacionForm.value).subscribe({
         error: (err) => alert(err),
-        complete: () => this.closeModal(),
+        complete: () => {
+          detallesToCreate.forEach(async (element) => {
+            await this.detalleService.create(element);
+          });
+          detallesToUpdate.forEach(async (element) => {
+            await this.detalleService.update(element);
+          });
+          this.closeModal();
+        },
       });
     }
   }

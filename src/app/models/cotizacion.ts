@@ -1,5 +1,5 @@
 export interface ICotizacion {
-  id?: number;
+  id: number;
   id_cliente: number;
   fecha_creada: string;
   fecha_modificado: string;
@@ -10,7 +10,7 @@ export interface ICotizacion {
 }
 
 export interface IDetalle {
-  id?: number;
+  id: number;
   id_cotizacion: number;
   id_producto: number;
   cantidad: number;
@@ -44,6 +44,7 @@ export const clearDetalle = () => {
     cantidad: 0,
     imagen: '',
     modelo: '',
+    descripcion: '',
     sexo: '',
     talla: '',
     costo_t: 0,

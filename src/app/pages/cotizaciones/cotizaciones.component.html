@@ -49,7 +49,6 @@
             <th>Dolares</th>
             <th>Pesos</th>
             <th>Editar</th>
-            <th>Detalle</th>
             <th>Eliminar</th>
           </tr>
         </thead>
@@ -76,14 +75,6 @@
             </td>
             <td>
               <button
-                class="btn btn-outline-info"
-                (click)="addDetalleCotizacion(cuote)"
-              >
-                <i class="bi bi-box-arrow-up-right"></i>
-              </button>
-            </td>
-            <td>
-              <button
                 class="btn btn-outline-danger"
                 (click)="deleteCotizacion(cuote.id)"
               >
@@ -104,9 +95,9 @@
   ></cotizacion-modal>
 </div>
 
-<div *ngIf="showModalDetalle">
+<!-- <div *ngIf="showModalDetalle">
   <cotizacion-detalle
     [id_cotizacion]="cotizacionEdit.id"
     (closeEvent)="closeDetalleModal()"
   ></cotizacion-detalle>
-</div>
+</div> -->
