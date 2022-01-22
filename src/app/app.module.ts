@@ -14,6 +14,8 @@ import { SesionComponent } from './pages/sesion/sesion.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ModalComponent as ClienteModal } from './pages/clientes/modal/modal.component';
 import { ModalComponent as ProductoModal } from './pages/productos/modal/modal.component';
+import { ModalComponent } from './pages/cotizaciones/modal/modal.component';
+import { DetalleComponent } from './components/cotizaciones/detalle/detalle.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,6 +27,8 @@ import { ModalComponent as ProductoModal } from './pages/productos/modal/modal.c
     DashboardComponent,
     ClienteModal,
     ProductoModal,
+    ModalComponent,
+    DetalleComponent,
   ],
   imports: [
     BrowserModule,

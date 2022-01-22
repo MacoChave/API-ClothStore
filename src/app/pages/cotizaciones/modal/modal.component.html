@@ -1,0 +1,83 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Cotización</h5>
+    <form [formGroup]="cotizacionForm" (submit)="cotizacionSubmit()">
+      <select
+        class="form-select mb-3"
+        (change)="changeClient($event)"
+        formControlName="id_cliente"
+      >
+        <option value="0" disabled>Choose the client</option>
+        <option *ngFor="let cliente of clientes" [ngValue]="cliente.id">
+          {{ cliente.nombre + " " + cliente.apellido }}
+        </option>
+      </select>
+      <div class="row">
+        <div class="col">
+          <p>
+            Creado:
+            <span> {{ cotizacion.fecha_creada | date: "longDate" }} </span>
+          </p>
+        </div>
+        <div class="col">
+          <p>
+            Modificado:
+            <span> {{ cotizacion.fecha_modificado | date: "longDate" }} </span>
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              id="floatingSoles"
+              placeholder="Soles"
+              formControlName="soles"
+              class="form-control"
+            />
+            <label for="floatingSoles">Soles</label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              id="floatingDolares"
+              placeholder="Dolares"
+              formControlName="dolares"
+              class="form-control"
+            />
+            <label for="floatingDolares">Dolares</label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              id="floatingPesos"
+              placeholder="Pesos"
+              formControlName="pesos"
+              class="form-control"
+            />
+            <label for="floatingPesos">Pesos</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button
+            class="btn btn-outline-primary w-100"
+            type="button"
+            (click)="closeModal()"
+          >
+            Cancelar
+          </button>
+        </div>
+        <div class="col">
+          <button class="btn btn-primary w-100" type="submit">Guardar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

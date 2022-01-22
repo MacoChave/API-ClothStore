@@ -1,1 +1,106 @@
-<p>cotizaciones works!</p>
+<div class="container">
+  <div class="card mb-3">
+    <div class="card-body">
+      <div>
+        <h5 class="Filtrar cotizaciones"></h5>
+      </div>
+      <form>
+        <div class="row justify-content-end">
+          <div class="col-3 mb-4">
+            <button class="btn btn-primary" type="submit">Filtrar</button>
+          </div>
+          <div class="col-3 mb-4">
+            <button class="btn btn-secondary" type="button">
+              Limpiar filtros
+            </button>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col"></div>
+          <div class="col"></div>
+          <div class="col"></div>
+          <div class="col"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="card mb-3">
+    <div class="card-body">
+      <div class="row justify-content-betweens">
+        <div class="col-9">
+          <h5 class="card-title">
+            Total de cotizaciones <span> {{ cotizacionList.length }} </span>
+          </h5>
+        </div>
+        <div class="col">
+          <button class="btn btn-primary" type="button" (click)="openModal()">
+            Agregar cotización
+          </button>
+        </div>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>Cliente</th>
+            <th>Fecha de creación</th>
+            <th>Fecha de modificación</th>
+            <th>Soles</th>
+            <th>Dolares</th>
+            <th>Pesos</th>
+            <th>Editar</th>
+            <th>Detalle</th>
+            <th>Eliminar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cuote of filterCotizacion">
+            <th scope="row">{{ cuote.id }}</th>
+            <th scope="row">{{ cuote.nombre }}</th>
+            <td>
+              {{ cuote.fecha_creada | date: "longDate" }}
+            </td>
+            <td>
+              {{ cuote.fecha_modificado | date: "longDate" }}
+            </td>
+            <td>{{ cuote.soles | currency: "S/" }}</td>
+            <td>{{ cuote.dolares | currency: "USD" }}</td>
+            <td>{{ cuote.pesos | currency: "USD" }}</td>
+            <td>
+              <button
+                class="btn btn-outline-primary"
+                (click)="editCotizacion(cuote)"
+              >
+                <i class="bi bi-pencil-square"></i>
+              </button>
+            </td>
+            <td>
+              <button class="btn btn-outline-info">
+                <i class="bi bi-box-arrow-up-right"></i>
+              </button>
+            </td>
+            <td>
+              <button
+                class="btn btn-outline-danger"
+                (click)="deleteCotizacion(cuote.id)"
+              >
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showModalCotizacion">
+  <cotizacion-modal
+    [cotizacion]="cotizacionEdit"
+    (closeEvent)="closeModal($event)"
+  ></cotizacion-modal>
+</div>
+
+<div>
+  <cotizacion-detalle></cotizacion-detalle>
+</div>
