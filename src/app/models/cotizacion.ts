@@ -16,7 +16,7 @@ export interface IDetalle {
   cantidad: number;
   imagen: string;
   modelo: string;
-  sexo: string;
+  descripcion: string;
   talla: string;
   costo_t: number;
   costo_a: number;

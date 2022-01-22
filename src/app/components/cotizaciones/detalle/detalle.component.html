@@ -1,112 +1,142 @@
-<div class="card">
-  <div class="card-body">
-    <h5 class="card-title">Agregar producto</h5>
-    <form>
-      <select class="form-select mb-3">
-        <option value="">Choose the product</option>
-      </select>
-      <div class="row">
-        <div class="col">
-          <div class="form-floating mb-3">
-            <input
-              type="text"
-              class="form-control"
-              id="floatingCostoT"
-              placeholder="Costo Tacna"
-              disabled
-              readonly
-            />
-            <label for="floatingCostoT">Costo Tacna</label>
+<div class="card" style="width: 80vw">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Agregar producto</h5>
+      <form [formGroup]="detalleForm" (submit)="detalleSubmit()">
+        <select
+          class="form-select mb-3"
+          (change)="changeProduct($event)"
+          formControlName="id_producto"
+        >
+          <option value="0">Choose the product</option>
+          <option *ngFor="let producto of productos" [ngValue]="producto.id">
+            {{ producto.modelo + " - " + producto.talla }}
+          </option>
+        </select>
+        <div class="row">
+          <div class="col">
+            <div class="form-floating mb-3">
+              <input
+                type="number"
+                class="form-control"
+                id="floatingCostoT"
+                placeholder="Costo Tacna"
+                value="{{ producto.costo_t }}"
+                disabled
+                readonly
+              />
+              <label for="floatingCostoT">Costo Tacna</label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-floating mb-3">
+              <input
+                type="number"
+                class="form-control"
+                id="floatingCostoA"
+                placeholder="Costo Arica"
+                value="{{ producto.costo_a }}"
+                disabled
+                readonly
+              />
+              <label for="floatingCostoA">Costo Arica</label>
+            </div>
           </div>
         </div>
-        <div class="col">
-          <div class="form-floating mb-3">
-            <input
-              type="text"
-              class="form-control"
-              id="floatingCostoA"
-              placeholder="Costo Arica"
-              disabled
-              readonly
-            />
-            <label for="floatingCostoA">Costo Arica</label>
+        <div class="row">
+          <div class="col">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="floatingTalla"
+                placeholder="Talla"
+                value="{{ producto.talla }}"
+                disabled
+                readonly
+              />
+              <label for="floatingTalla">Talla</label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-floating mb-3">
+              <input
+                type="number"
+                class="form-control"
+                id="floatingCantidad"
+                placeholder="Cantidad"
+                formControlName="cantidad"
+              />
+              <label for="floatingCantidad">Cantidad</label>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <div class="form-floating mb-3">
-            <input
-              type="text"
-              class="form-control"
-              id="floatingTalla"
-              placeholder="Talla"
-              disabled
-              readonly
-            />
-            <label for="floatingTalla">Talla</label>
-          </div>
+        <div class="form-floating mb-3">
+          <input
+            type="number"
+            class="form-control"
+            id="floatingSubTotal"
+            placeholder="SubTotal"
+            value="{{ producto.costo_t * detalleForm.value.cantidad }}"
+            disabled
+            readonly
+          />
+          <label for="floatingSubTotal">SubTotal</label>
         </div>
-        <div class="col">
-          <div class="form-floating mb-3">
-            <input
-              type="text"
-              class="form-control"
-              id="floatingCantidad"
-              placeholder="Cantidad"
-              disabled
-              readonly
-            />
-            <label for="floatingCantidad">Cantidad</label>
-          </div>
-        </div>
-      </div>
-      <div class="form-floating mb-3">
-        <input
-          type="text"
-          class="form-control"
-          id="floatingSubTotal"
-          placeholder="SubTotal"
-          disabled
-          readonly
-        />
-        <label for="floatingSubTotal">SubTotal</label>
-      </div>
-      <button type="submit" class="btn btn-primary">Agregar producto</button>
-    </form>
+        <button type="submit" class="btn btn-primary">Agregar producto</button>
+      </form>
+    </div>
   </div>
-</div>
 
-<div class="card">
-  <div class="card-body">
-    <h5 class="card-title">Productos</h5>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Imagen</th>
-          <th>Cantidad</th>
-          <th>Descripcion</th>
-          <th>Modelo</th>
-          <th>Talla</th>
-          <th>Costo tacna</th>
-          <th>Costo arica</th>
-          <th>Subtotal</th>
-          <th>Quitar</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Productos</h5>
+      <div class="container" style="max-height: 30vh; overflow-y: scroll">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Imagen</th>
+              <th>Cantidad</th>
+              <th>Descripcion</th>
+              <th>Modelo</th>
+              <th>Talla</th>
+              <th>Costo tacna</th>
+              <th>Costo arica</th>
+              <th>Subtotal</th>
+              <th>Quitar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let detalle of detalles">
+              <td>
+                <img
+                  src="{{ detalle.imagen }}"
+                  alt="Imagen"
+                  style="width: 100px"
+                />
+              </td>
+              <td>{{ detalle.cantidad }}</td>
+              <td style="width: 100px">
+                {{ detalle.descripcion | trimText: 25 }}
+              </td>
+              <td>{{ detalle.modelo }}</td>
+              <td>{{ detalle.talla }}</td>
+              <td>{{ detalle.costo_t }}</td>
+              <td>{{ detalle.costo_a }}</td>
+              <td>{{ detalle.subtotal }}</td>
+              <td>
+                <button
+                  class="btn btn-outline-danger"
+                  (click)="deleteSubmit(detalle.id)"
+                >
+                  <i class="bi bi-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
+  <button class="btn btn-primary" (click)="closeModal()">Cerrar</button>
 </div>

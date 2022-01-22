@@ -75,7 +75,10 @@
               </button>
             </td>
             <td>
-              <button class="btn btn-outline-info">
+              <button
+                class="btn btn-outline-info"
+                (click)="addDetalleCotizacion(cuote)"
+              >
                 <i class="bi bi-box-arrow-up-right"></i>
               </button>
             </td>
@@ -101,6 +104,9 @@
   ></cotizacion-modal>
 </div>
 
-<div>
-  <cotizacion-detalle></cotizacion-detalle>
+<div *ngIf="showModalDetalle">
+  <cotizacion-detalle
+    [id_cotizacion]="cotizacionEdit.id"
+    (closeEvent)="closeDetalleModal()"
+  ></cotizacion-detalle>
 </div>

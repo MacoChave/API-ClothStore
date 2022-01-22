@@ -4,4 +4,5 @@ export const URI = {
   client: 'api/clients',
   product: 'api/products',
   cuote: 'api/cuotes',
+  detail: 'api/details',
 };

@@ -9,6 +9,7 @@ import { CotizacionService } from 'src/app/services/cotizacion.service';
 })
 export class CotizacionesComponent implements OnInit {
   showModalCotizacion: boolean = false;
+  showModalDetalle: boolean = false;
   cotizacionEdit: ICotizacion = clearCotizacion();
   cotizacionList: ICotizacion[] = [];
   filterCotizacion: ICotizacion[] = [];
@@ -37,6 +38,11 @@ export class CotizacionesComponent implements OnInit {
     this.openModal();
   }
 
+  addDetalleCotizacion(cotizacion: ICotizacion): void {
+    this.cotizacionEdit = cotizacion;
+    this.openDetalleModal();
+  }
+
   deleteCotizacion(id: number | undefined): void {
     if (id === undefined) return;
     this.cotizacionService.delete(id).subscribe({
@@ -48,6 +54,15 @@ export class CotizacionesComponent implements OnInit {
 
   openModal() {
     this.showModalCotizacion = !this.showModalCotizacion;
+  }
+
+  openDetalleModal() {
+    this.showModalDetalle = !this.showModalDetalle;
+  }
+
+  closeDetalleModal() {
+    this.showModalDetalle = !this.showModalDetalle;
+    this.cotizacionEdit = clearCotizacion();
   }
 
   closeModal(state: boolean): void {

@@ -7,7 +7,7 @@
         (change)="changeClient($event)"
         formControlName="id_cliente"
       >
-        <option value="0" disabled>Choose the client</option>
+        <option value="0">Choose the client</option>
         <option *ngFor="let cliente of clientes" [ngValue]="cliente.id">
           {{ cliente.nombre + " " + cliente.apellido }}
         </option>

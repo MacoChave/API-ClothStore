@@ -16,6 +16,7 @@ import { ModalComponent as ClienteModal } from './pages/clientes/modal/modal.com
 import { ModalComponent as ProductoModal } from './pages/productos/modal/modal.component';
 import { ModalComponent } from './pages/cotizaciones/modal/modal.component';
 import { DetalleComponent } from './components/cotizaciones/detalle/detalle.component';
+import { TrimTextPipe } from './pipes/trim-text.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,6 +30,7 @@ import { DetalleComponent } from './components/cotizaciones/detalle/detalle.comp
     ProductoModal,
     ModalComponent,
     DetalleComponent,
+    TrimTextPipe,
   ],
   imports: [
     BrowserModule,
