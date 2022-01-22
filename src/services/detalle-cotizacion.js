@@ -27,7 +27,7 @@ export const insertOne = async (detalle) => {
     )
 
     let message = result.affectedRows ? 'Quote detail created successfully' : 'Error in created Quote detail'
-    return { message }
+    return { message, id: result.insertId }
 }
 
 export const updateOne = async (detalle) => {
@@ -41,7 +41,7 @@ export const updateOne = async (detalle) => {
     )
 
     let message = result.affectedRows ? 'Quote detail updated successfully' : 'Error in updated quote detail'
-    return { message }
+    return { message, id: detalle.id }
 }
 
 export const deleteOne = async (id) => {
@@ -53,5 +53,5 @@ export const deleteOne = async (id) => {
     )
 
     let message = result.affectedRows ? 'Quote detail delete successfully' : 'Error in deleted quote detail'
-    return { message }
+    return { message, id: id }
 }

@@ -32,7 +32,7 @@ export const insertOne = async (cotizacion) => {
 
     if (result.affectedRows) message = 'Quote created successfully'
 
-    return { message };
+    return { message, id: result.insertId };
 };
 
 export const updateOne = async (cotizacion) => {
