@@ -1,40 +1,77 @@
 /**
  * 
- * @param {Object} cotizacion 
- * @param {Array} detalle 
- * @returns 
+ * @param {number} price 
+ * @returns {number}
  */
-export const getHTML = (cotizacion, detalle) => {
-    let table_body = ``
+const rounded = (price) => {
+	return price.toFixed(2)
+}
 
-    detalle.forEach((item) => {
-        table_body += `<tr>
+/**
+ * 
+ * @param {Date} date 
+ * @returns {string}
+ */
+const dateFormat = (date) => {
+	return date.toLocaleDateString('es-MX', {
+		weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+	})
+}
+
+export const getHTML = (cotizacion, detalle) => {
+	let table_body = ``
+
+	detalle.forEach((item) => {
+		table_body += `<tr>
         <td>${item.id_producto}</td>
         <td>${item.cantidad}</td>
         <td style="width: 300px">${item.descripcion}</td>
         <td>${item.talla}</td>
-        <td>${item.costo_t}</td>
-        <td>${item.costo_a}</td>
-        <td>${item.subtotal}</td>
+        <td>S/ ${item.costo_t}</td>
+        <td>S/ ${item.costo_a}</td>
+        <td>S/ ${item.subtotal}</td>
     </tr>`
-    })
+	})
 
-    const html = `<html>
+	let header_html = `
+	<div class="container">
+		<div class="item">
+			<h3>Datos del cliente:</h3>
+			<div class="item__cliente">
+				<p>Nombre: <span>${cotizacion.nombre}</span></p>
+				<p>Fecha: <span>${dateFormat(cotizacion.fecha_creada)}</span></p>
+			</div>
+		</div>
+		<div class="item">
+			<h3>Tasas de cambio:</h3>
+			<div class="item__tasas">
+				<p>Soles: S/ <span>${cotizacion.soles}</span></p>
+				<p>Dolares: $ <span>${cotizacion.dolares}</span> USD</p>
+				<p>Pesos: $ <span>${cotizacion.pesos}</span></p>
+			</div>
+		</div>
+	</div>`
+
+	const html = `<html>
 	<head>
 		<style>
-			#pageHeader {
+			.header {
 				color: #303030;
 				border-bottom: 2px solid #737373;
-				padding: 5px;
 			}
 			#pageFooter {
 				color: #505050;
 				border-top: 2px solid #737373;
-				padding: 5px;
 			}
 			.container {
+				display: -webkit-flex;
+				display: -ms-flexbox
 				display: flex;
+				-webkit-flex-direction: row;
+				-ms-flex-direction: row;
 				flex-direction: row;
+				-webkit-justify-content: space-around;
+				-ms-justify-content: space-around;
 				justify-content: space-around;
 				margin: 2em;
 			}
@@ -45,47 +82,31 @@ export const getHTML = (cotizacion, detalle) => {
 			table thead tr th {
 				padding: 0.5em 1em;
 			}
-			table tr td:nth-child(1) {
+			table tbody tr:nth-child(2n) {
 				background-color: #dcdcdc;
-				font-weight: bold;
 			}
 		</style>
 	</head>
 
 	<body>
-		<div id="pageHeader">
-			<div class="container">
-				<div class="item">
-					<h3>Datos del cliente:</h3>
-					<div class="item__cliente">
-						<p>Nombre: <span>${cotizacion.nombre}</span></p>
-						<p>Fecha: <span>${cotizacion.fecha_creada}</span></p>
-					</div>
-				</div>
-				<div class="item">
-					<h3>Tasas de cambio:</h3>
-					<div class="item__tasas">
-						<p>Soles: S/ <span>${cotizacion.soles}</span></p>
-						<p>Dolares: $ <span>${cotizacion.dolares}</span> USD</p>
-						<p>Pesos: $ <span>${cotizacion.pesos}</span></p>
-					</div>
-				</div>
-			</div>
+		<div id="pageHeader" class="header">
+			<div style="text-align: center;">Reporte de cotización</div>
+			${header_html}
 		</div>
 
-		<div class="container" style="margin-top: 300px">
+		<div class="container" style="margin-top: 150px">
 			<div class="item">
 				<h2>Productos</h2>
-				<table border="2px">
+				<table>
 					<thead>
 						<tr>
 							<th>Código del producto</th>
 							<th>Cantidad</th>
 							<th>Descripción</th>
 							<th>Talla</th>
-							<th>Costo tacna</th>
-							<th>Costo arica</th>
-							<th>Sub total</th>
+							<th style="width: 150px">Costo tacna</th>
+							<th style="width: 150px">Costo arica</th>
+							<th style="width: 150px">Sub total</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -94,7 +115,7 @@ export const getHTML = (cotizacion, detalle) => {
 					<tfoot>
 						<tr>
 							<td colspan="6">Total</td>
-							<td>000.00</td>
+							<td>S/ ${rounded(cotizacion.total)}</td>
 						</tr>
 					</tfoot>
 				</table>
@@ -111,5 +132,5 @@ export const getHTML = (cotizacion, detalle) => {
 	</body>
 </html>
 `
-    return html;
+	return html;
 }

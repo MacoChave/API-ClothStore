@@ -18,7 +18,11 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(morgan('dev'))
 app.use(cors({
-    allowedHeaders: ['Content-Type', 'Authorization', 'x-access-token'],
+    allowedHeaders: [
+        'Content-Type',
+        'Authorization',
+        'x-access-token'
+    ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     origin: '*'
 }))

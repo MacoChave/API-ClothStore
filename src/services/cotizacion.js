@@ -9,6 +9,25 @@ export const getOne = async (id) => {
     return rows;
 };
 
+export const getForReport = async (id) => {
+    const rows = await query(
+        `SELECT 
+        ct.id, ct.id_cliente, 
+        ct.fecha_creada, ct.fecha_modificado,
+        ct.soles, ct.dolares, ct.pesos,
+        CONCAT(cl.nombre, ' ', cl.apellido) as nombre,
+        SUM(dt.subtotal) as total
+    FROM cotizacion ct
+    INNER JOIN cliente cl ON ct.id_cliente = cl.id
+    INNER JOIN vista_detalle_cotizacion dt ON ct.id = dt.id_cotizacion
+    WHERE ct.id = ?
+    GROUP BY ct.id, ct.fecha_creada, ct.fecha_modificado, ct.soles, ct.dolares, ct.pesos;`,
+        [id]
+    );
+
+    return rows;
+};
+
 export const getMultiple = async () => {
     const rows = await query(
         'SELECT * FROM vista_cotizacion'

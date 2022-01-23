@@ -1,7 +1,7 @@
 import pdf from 'html-pdf'
 import { getHTML } from '../utils/invoice.PDF'
 
-import { deleteOne, getMultiple, getOne, insertOne, updateOne } from "../services/cotizacion"
+import { deleteOne, getForReport, getMultiple, getOne, insertOne, updateOne } from "../services/cotizacion"
 import { getMultiple as getDetails } from '../services/detalle-cotizacion'
 
 export const getCotizacion = async (req, res) => {
@@ -26,12 +26,16 @@ export const getAllCotizacion = async (req, res) => {
 
 export const createPDF = async (req, res) => {
     const { id } = req.params
-    const cotizacion = await getOne(id)
+    const cotizacion = await getForReport(id)
     const detalles = await getDetails(id)
+    const config = {
+        format: 'Letter',
+        border: '2.5cm'
+    }
 
     pdf.create(
-        getHTML(cotizacion, detalles),
-        { format: 'Letter' }
+        getHTML(cotizacion[0], detalles),
+        config
     ).toStream((err, stream) => {
         if (err) return res.end(err.stack)
         res.setHeader('Content-type', 'application/pdf')
