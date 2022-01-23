@@ -1,4 +1,4 @@
-import { deleteOne, getMultiple, getOne, insertOne, updateOne } from "../services/detalle-cotizacion"
+import { deleteOne, getMultiple, getOne, insertMultiple, insertOne, updateOne } from "../services/detalle-cotizacion"
 
 export const getDetalleCotizacion = async (req, res) => {
     const { id } = req.params
@@ -25,6 +25,16 @@ export const createDetalleCotizacion = async (req, res) => {
         const result = await insertOne(req.body)
         res.status(200).json(result)
     } catch (error) {
+        res.status(500).json({ message: error.sqlMessage })
+    }
+}
+
+export const createDetallesCotizacion = async (req, res) => {
+    try {
+        const result = await insertMultiple(req.body)
+        res.status(200).json(result)
+    } catch (error) {
+        console.log(error)
         res.status(500).json({ message: error.sqlMessage })
     }
 }
