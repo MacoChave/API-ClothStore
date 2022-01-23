@@ -9,7 +9,6 @@ import { CotizacionService } from 'src/app/services/cotizacion.service';
 })
 export class CotizacionesComponent implements OnInit {
   showModalCotizacion: boolean = false;
-  // showModalDetalle: boolean = false;
   cotizacionEdit: ICotizacion = clearCotizacion();
   cotizacionList: ICotizacion[] = [];
   filterCotizacion: ICotizacion[] = [];
@@ -38,10 +37,15 @@ export class CotizacionesComponent implements OnInit {
     this.openModal();
   }
 
-  // addDetalleCotizacion(cotizacion: ICotizacion): void {
-  //   this.cotizacionEdit = cotizacion;
-  //   this.openDetalleModal();
-  // }
+  pdfCotizacion(cotizacion: ICotizacion): void {
+    this.cotizacionService.getReporte(cotizacion.id).subscribe((data) => {
+      var downloadURL = window.URL.createObjectURL(data);
+      var link = document.createElement('a');
+      link.href = downloadURL;
+      link.download = 'reporte.pdf';
+      link.click();
+    });
+  }
 
   deleteCotizacion(id: number | undefined): void {
     if (id === undefined) return;
@@ -55,15 +59,6 @@ export class CotizacionesComponent implements OnInit {
   openModal() {
     this.showModalCotizacion = !this.showModalCotizacion;
   }
-
-  // openDetalleModal() {
-  //   this.showModalDetalle = !this.showModalDetalle;
-  // }
-
-  // closeDetalleModal() {
-  //   this.showModalDetalle = !this.showModalDetalle;
-  //   this.cotizacionEdit = clearCotizacion();
-  // }
 
   closeModal(state: boolean): void {
     this.showModalCotizacion = !this.showModalCotizacion;

@@ -84,15 +84,11 @@ export class ModalComponent implements OnInit {
   }
 
   changeClient(event: any): void {
-    // this.cotizacionForm
-    //   .get('id_cliente')
-    //   ?.setValue(event.target.value, { onlySelf: true });
     this.cliente = this.clientes[event.target.selectedIndex - 1];
   }
 
   changeProduct(event: any): void {
     this.producto = this.productos[event.target.selectedIndex - 1];
-    console.log(this.producto);
   }
 
   closeModal(): void {

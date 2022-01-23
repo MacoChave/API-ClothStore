@@ -52,6 +52,15 @@ export class CotizacionService {
       .pipe(catchError(this.handleError));
   }
 
+  getReporte(id: number) {
+    return this.http.get<any>(`${URI.baseURL}${URI.cuote}/reporte/${id}`, {
+      headers: {
+        'x-access-token': this.authService.token,
+      },
+      responseType: 'blob' as 'json',
+    });
+  }
+
   handleError(error: HttpErrorResponse) {
     let errorMessage = '';
     if (error.status === 0) errorMessage = error.error.message;
