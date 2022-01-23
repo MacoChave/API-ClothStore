@@ -1,5 +1,5 @@
 export interface IProducto {
-  id?: number;
+  id: number;
   imagen: string;
   deporte: string;
   modelo: string;

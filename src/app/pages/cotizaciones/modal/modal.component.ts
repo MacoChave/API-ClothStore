@@ -37,6 +37,7 @@ export class ModalComponent implements OnInit {
     pesos: new FormControl('', Validators.required),
   });
 
+  // TODO: Replace for detalle var
   detalleForm: FormGroup = new FormGroup({
     id: new FormControl(0),
     id_cotizacion: new FormControl(0, Validators.required),
@@ -96,7 +97,17 @@ export class ModalComponent implements OnInit {
   }
 
   detalleSubmit(): void {
-    this.detalles.push(this.detalleForm.value);
+    this.detalle = this.detalleForm.value;
+    this.detalle.imagen = this.producto.imagen;
+    this.detalle.descripcion = this.producto.descripcion;
+    this.detalle.modelo = this.producto.modelo;
+    this.detalle.talla = this.producto.talla;
+    this.detalle.costo_t = this.producto.costo_t;
+    this.detalle.costo_a = this.producto.costo_a;
+    this.detalle.subtotal = this.producto.costo_a * this.detalle.cantidad;
+
+    this.detalles.push(this.detalle);
+    this.detalle = clearDetalle();
   }
 
   deleteDetalle(detalle: IDetalle): void {
@@ -113,7 +124,7 @@ export class ModalComponent implements OnInit {
   }
 
   cotizacionSubmit(): void {
-    if (this.cotizacion.id !== undefined && this.cotizacion.id === 0) {
+    if (this.cotizacion.id === 0) {
       this.detalles = this.detalles.filter(
         (detalleItem) => detalleItem.id === 0
       );
@@ -127,30 +138,34 @@ export class ModalComponent implements OnInit {
         },
         error: (err) => alert(err),
         complete: () => {
-          this.detalles.forEach((detalle) => {
-            this.detalleService.create(detalle).subscribe({
-              complete: () => this.closeModal(),
-            });
+          this.detalleService.createAll(this.detalles).subscribe({
+            error: (err) => alert(err),
+            complete: () => this.closeModal(),
           });
         },
       });
     } else {
       let detallesToCreate = this.detalles.filter(
-        (value) => value.id_cotizacion === 0
+        (detalleItem) => detalleItem.id === 0
       );
       let detallesToUpdate = this.detalles.filter(
-        (value) => value.id_cotizacion !== 0
+        (detalleItem) => detalleItem.id !== 0
       );
       this.cotizacionService.update(this.cotizacionForm.value).subscribe({
+        next: (v) => {
+          detallesToCreate.map((value) => {
+            value.id_cotizacion = this.cotizacion.id;
+          });
+        },
         error: (err) => alert(err),
         complete: () => {
-          detallesToCreate.forEach(async (element) => {
-            await this.detalleService.create(element);
+          this.detalleService.createAll(detallesToCreate).subscribe({
+            next: (v) => alert(v.message),
+            error: (err) => alert(err),
+            complete: () => {
+              // this.closeModal();
+            },
           });
-          detallesToUpdate.forEach(async (element) => {
-            await this.detalleService.update(element);
-          });
-          this.closeModal();
         },
       });
     }

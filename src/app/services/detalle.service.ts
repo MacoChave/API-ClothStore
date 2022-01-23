@@ -20,6 +20,14 @@ export class DetalleService {
       .pipe(catchError(this.handleError));
   }
 
+  createAll(detalle: IDetalle[]): Observable<IMessage> {
+    return this.http
+      .post<IMessage>(`${URI.baseURL}${URI.detail}/all`, detalle, {
+        headers: { 'x-access-token': this.authService.token },
+      })
+      .pipe(catchError(this.handleError));
+  }
+
   update(detalle: IDetalle): Observable<IMessage> {
     return this.http
       .put<IMessage>(`${URI.baseURL}${URI.detail}`, detalle, {
