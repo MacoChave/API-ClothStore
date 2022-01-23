@@ -1,4 +1,8 @@
+import pdf from 'html-pdf'
+import { getHTML } from '../utils/invoice.PDF'
+
 import { deleteOne, getMultiple, getOne, insertOne, updateOne } from "../services/cotizacion"
+import { getMultiple as getDetails } from '../services/detalle-cotizacion'
 
 export const getCotizacion = async (req, res) => {
     const { id } = req.params
@@ -18,6 +22,25 @@ export const getAllCotizacion = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.sqlMessage })
     }
+}
+
+export const createPDF = async (req, res) => {
+    const { id } = req.params
+    const cotizacion = await getOne(id)
+    const detalles = await getDetails(id)
+
+    pdf.create(
+        getHTML(cotizacion, detalles),
+        { format: 'Letter' }
+    ).toStream((err, stream) => {
+        if (err) return res.end(err.stack)
+        res.setHeader('Content-type', 'application/pdf')
+        stream.pipe(res)
+    })
+}
+
+export const getPDF = async (req, res) => {
+    res.status(200).json({ message: 'C:\Users\Marco\Proyectos\Visual Code\Store-Project\Backend\src\report\reporte.pdf' })
 }
 
 export const createCotizacion = async (req, res) => {
