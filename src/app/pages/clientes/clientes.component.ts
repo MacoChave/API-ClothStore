@@ -35,6 +35,7 @@ export class ClientesComponent implements OnInit {
   }
 
   filterSubmit(): void {
+    console.log(this.filterForm.value);
     if (this.filterForm.get('keyword')?.value !== '') {
       let filterWord = this.filterForm.get('keyword')?.value;
       this.filterClient = this.clientList.filter((value) => {
@@ -51,17 +52,17 @@ export class ClientesComponent implements OnInit {
     } else if (this.filterForm.get('razon')?.value !== '') {
       let filterWord: string = this.filterForm.get('razon')?.value;
       this.filterClient = this.clientList.filter(
-        (value) => value.razon.toLowerCase() == filterWord.toLowerCase()
+        (value) => value.razon.toLowerCase() === filterWord.toLowerCase()
       );
     } else if (this.filterForm.get('codigo')?.value !== '') {
-      let filterWord: number = this.filterForm.get('codigo')?.value;
-      this.filterClient = this.clientList.filter(
-        (value) => value.id === filterWord
+      let filterWord: string = this.filterForm.get('codigo')?.value;
+      this.filterClient = this.clientList.filter((value) =>
+        value.id?.toString().includes(filterWord)
       );
     } else {
-      let filterWord: number = this.filterForm.get('ruc')?.value;
-      this.filterClient = this.clientList.filter(
-        (value) => value.ruc === filterWord
+      let filterWord: string = this.filterForm.get('ruc')?.value;
+      this.filterClient = this.clientList.filter((value) =>
+        value.ruc?.toString().includes(filterWord)
       );
     }
   }
