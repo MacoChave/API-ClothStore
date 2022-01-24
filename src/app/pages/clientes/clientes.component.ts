@@ -67,6 +67,9 @@ export class ClientesComponent implements OnInit {
   }
 
   filterClear(): void {
+    // this.filterClient this.clientList.filter(value => {
+    //   return (!(value.telefono > 1256 && value.telefono < 12356))
+    // })
     this.filterClient = this.clientList;
     this.filterForm.patchValue({
       keyword: '',
