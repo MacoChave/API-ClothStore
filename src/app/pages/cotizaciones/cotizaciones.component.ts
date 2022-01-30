@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { clearCotizacion, ICotizacion } from 'src/app/models/cotizacion';
 import { CotizacionService } from 'src/app/services/cotizacion.service';
 
@@ -12,7 +13,12 @@ export class CotizacionesComponent implements OnInit {
   cotizacionEdit: ICotizacion = clearCotizacion();
   cotizacionList: ICotizacion[] = [];
   filterCotizacion: ICotizacion[] = [];
-  // filterForm: FormGroup = new FormGroup({})
+
+  filterForm: FormGroup = new FormGroup({
+    fromDate: new FormControl(''),
+    toDate: new FormControl(''),
+    month: new FormControl(''),
+  });
 
   constructor(private cotizacionService: CotizacionService) {}
 
@@ -28,9 +34,45 @@ export class CotizacionesComponent implements OnInit {
     });
   }
 
-  filterSubmit(): void {}
+  filterSubmit() {
+    this.filterCotizacion = this.cotizacionList;
+    let monthFilter = this.filterForm.value.month;
+    let fromFilter = this.filterForm.value.fromDate;
+    let toFilter = this.filterForm.value.toDate;
 
-  filterClear(): void {}
+    if (monthFilter !== '') {
+      let currentMonth = new Date().getMonth();
+      let month =
+        monthFilter === 'current'
+          ? currentMonth
+          : currentMonth === 0
+          ? 11
+          : currentMonth;
+      this.filterCotizacion = this.filterCotizacion.filter((value) => {
+        return new Date(value.fecha_creada).getMonth() === month;
+      });
+    } else if (fromFilter !== '' && toFilter !== '') {
+      let fromDate = new Date(fromFilter);
+      let toDate = new Date(toFilter);
+      this.filterCotizacion = this.filterCotizacion.filter((value) => {
+        return (
+          new Date(value.fecha_creada) > fromDate &&
+          new Date(value.fecha_creada) < toDate
+        );
+      });
+    } else {
+      alert('Seleccionar el rango de fecha a filtrar');
+    }
+  }
+
+  cleanFilters() {
+    this.filterForm.setValue({
+      month: '',
+      fromDate: '',
+      toDate: '',
+    });
+    console.log(this.filterForm.value);
+  }
 
   editCotizacion(cotizacion: ICotizacion): void {
     this.cotizacionEdit = cotizacion;

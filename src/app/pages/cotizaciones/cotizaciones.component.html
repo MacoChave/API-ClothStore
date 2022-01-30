@@ -2,24 +2,74 @@
   <div class="card mb-3">
     <div class="card-body">
       <div>
-        <h5 class="Filtrar cotizaciones"></h5>
+        <h5 class="card-title">Filtrar cotizaciones</h5>
       </div>
-      <form>
-        <div class="row justify-content-end">
-          <div class="col-3 mb-4">
-            <button class="btn btn-primary" type="submit">Filtrar</button>
+      <form [formGroup]="filterForm" (ngSubmit)="filterSubmit()">
+        <div class="row justify-content-end gap-4">
+          <div class="col-3 mb-4 d-flex gap-3">
+            <form>
+              <div class="mb-4">
+                <label class="form-label" for="fromDate">De</label>
+                <input
+                  class="form-control"
+                  type="date"
+                  name="fromDate"
+                  id="fromDate"
+                  formControlName="fromDate"
+                />
+              </div>
+              <div class="mb-4">
+                <label class="form-label" for="toDate">Hasta</label>
+                <input
+                  class="form-control"
+                  type="date"
+                  name="toDate"
+                  id="toDate"
+                  formControlName="toDate"
+                />
+              </div>
+            </form>
+          </div>
+
+          <div
+            class="col-3 mb-4 d-flex justify-content-center align-self-center"
+          >
+            <fieldset>
+              <legend>Filtrar por meses</legend>
+              <label class="form-check-label">
+                <input
+                  class="form-check-inpur"
+                  type="radio"
+                  id="lastMonth"
+                  name="month"
+                  value="last"
+                  formControlName="month"
+                />
+                Mes pasado
+              </label>
+              <label class="form-check-label">
+                <input
+                  class="form-check-inpur"
+                  type="radio"
+                  id="curMonth"
+                  name="month"
+                  value="current"
+                  formControlName="month"
+                />
+                Mes actual
+              </label>
+            </fieldset>
           </div>
           <div class="col-3 mb-4">
-            <button class="btn btn-secondary" type="button">
+            <button class="btn btn-primary" type="submit">Filtrar</button>
+            <button
+              class="btn btn-secondary"
+              type="button"
+              (click)="cleanFilters()"
+            >
               Limpiar filtros
             </button>
           </div>
-        </div>
-        <div class="row justify-content-center">
-          <div class="col"></div>
-          <div class="col"></div>
-          <div class="col"></div>
-          <div class="col"></div>
         </div>
       </form>
     </div>
